@@ -14,11 +14,11 @@ Sino-Nom-to-Vietnamese-Transliteration/
 ├── data/                   # Data management
 │   ├── external/           
 │   ├── interim/            
-│   ├── processed/          # Clean datasets ready for model training
+│   ├── processed/          # Datasets for model training
 │   └── raw/                # Original raw data dumps
-├── docs/                   # Project documentation and research papers
-├── models/                 # Trained model checkpoints & weights 
-├── notebooks/              # Jupyter notebooks for experimentation, EDA and Fine-tuning
+├── docs/                   
+├── models/                 # Model checkpoints & weights 
+├── notebooks/              # Notebooks for experimentation, EDA and Fine-tuning
 ├── src/                    # Primary source code for the project
 │   └── data/               # Scripts for data preprocessing 
 ├── .env.example            
