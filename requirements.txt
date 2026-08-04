@@ -1,0 +1,4 @@
+# Data Acquisition & Analysis
+kagglehub[pandas-datasets]
+pandas
+numpy
