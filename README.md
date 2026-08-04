@@ -2,7 +2,7 @@
 
 This project focused on transliterating Hán-Nôm (Sino-Nom) characters into modern Vietnamese using Transformer models.
 
-You can download our dataset here: 
+You can download our dataset here: [Download](https://www.mediafire.com/file/yfp1po9jrxegdyg/raw.zip/file)
 
 ## Project Structure
 
