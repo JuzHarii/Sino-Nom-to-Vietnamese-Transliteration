@@ -1,4 +1,5 @@
-# Data Acquisition & Analysis
-kagglehub[pandas-datasets]
+kagglehub
 pandas
 numpy
+matplotlib
+seaborn
