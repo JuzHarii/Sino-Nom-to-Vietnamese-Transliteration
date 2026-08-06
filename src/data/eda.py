@@ -1,12 +1,12 @@
 import pandas as pd 
 from pathlib import Path 
 
-class DatasetSinoNom:
+class Dataloader:
     def __init__(self, data_dir):
         self.data_dir = data_dir
         self.df = None
 
-    def load_data(self, data_dir=None):
+    def load_dataframe(self, data_dir=None):
         data_dir = Path(data_dir) if data_dir else Path(self.data_dir)
         all_dfs = []
 
@@ -23,21 +23,29 @@ class DatasetSinoNom:
         full_df = pd.concat(all_dfs, ignore_index=True)
         self.df = full_df
         return self.df
-    
-    def compute_length(self):
+        
+    def get_nom_char_len(self):
+        return self.df['nom'].apply(len)
+
+    def get_vn_word_len(self):
+        return self.df['vietnamese'].apply(lambda x: len(str(x).split()))
+
+    def get_vn_char_len(self):
+        return self.df['vietnamese'].apply(len)
+
+    def get_length(self):
         if self.df is None:
-            self.load_data()
-
-        self.df['nom_char_len'] = self.df['nom'].apply(len)
-        self.df['vn_word_len'] = self.df['vietnamese'].apply(lambda x: len(str(x).split()))
-        self.df['vn_char_len'] = self.df['vietnamese'].apply(len)
-        return self.df
-
+            self.load_dataframe()
+        
+        nom_char_len = self.get_nom_char_len()     
+        vn_word_len = self.get_vn_word_len()
+        vn_char_len = self.get_vn_char_len()
+        return nom_char_len, vn_word_len, vn_char_len
 
 if __name__ == "__main__":
-    dataset = DatasetSinoNom(data_dir="data/raw")
-    df = dataset.load_data()
-    dataset.compute_length()
-
+    dataset = Dataloader(data_dir="data/raw")
+    df = dataset.load_dataframe()
     print(df.head(5))
-    print(df[['nom_char_len', 'vn_word_len', 'vn_char_len']].describe())
+    dataset.compute_length()
+    print(df.head(5))
+    # print(df[['nom_char_len', 'vn_word_len', 'vn_char_len']].describe())
