@@ -36,7 +36,6 @@ class Dataloader:
     def get_length(self):
         if self.df is None:
             self.load_dataframe()
-        
         nom_char_len = self.get_nom_char_len()     
         vn_word_len = self.get_vn_word_len()
         vn_char_len = self.get_vn_char_len()
