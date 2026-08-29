@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sino-Nom to Vietnamese Transliteration</title>
+</head>
+
+<body>
+  <div class="min-h-screen p-8 max-w-6xl mx-auto">
+    <header class="mb-8 text-center">
+      <h1 class="text-4xl font-bold text-blue-900 mb-2">Sino-Nom to Vietnamese</h1>
+      <p class="text-gray-600">Transliterate Hán-Nôm characters to modern Vietnamese</p>
+    </header>
+
+    <main class="grid grid-cols-1 md:grid-cols-2 gap-8">
+
+      <!-- Input Section -->
+      <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex flex-col">
+        <label for="input-text" class="block text-sm font-semibold text-gray-700 mb-2">Sino-Nom Input</label>
+        <textarea id="input-text" rows="12"
+          class="w-full p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none resize-none flex-grow text-lg"
+          placeholder="Enter Sino-Nom text here... (e.g. 是日文曉有德)"></textarea>
+
+        <div class="mt-4 flex justify-end">
+          <button id="translate-btn"
+            class="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-6 rounded-lg shadow-sm transition-colors flex items-center justify-center min-w-[120px]">
+            Translate
+          </button>
+        </div>
+      </div>
+
+      <!-- Output Section -->
+      <div class="flex flex-col gap-6">
+
+        <!-- Local Model Output -->
+        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex flex-col flex-grow">
+          <div class="flex justify-between items-center mb-2">
+            <label class="block text-sm font-semibold text-gray-700">Local Model Result</label>
+            <select id="model-select"
+              class="text-sm border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 bg-gray-50 p-1">
+              <option value="mt5">MT5 (5 Epochs)</option>
+            </select>
+          </div>
+          <div id="local-output"
+            class="w-full p-4 border border-gray-200 rounded-lg bg-gray-50 flex-grow text-lg min-h-[120px] whitespace-pre-wrap text-gray-800">
+          </div>
+          <div id="local-loading" class="hidden mt-2 text-sm text-blue-600 animate-pulse">Translating via local model...
+          </div>
+        </div>
+
+        <!-- HCMUS API Output -->
+        <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 flex flex-col flex-grow">
+          <label class="block text-sm font-semibold text-gray-700 mb-2">HCMUS API Result</label>
+          <div id="hcmus-output"
+            class="w-full p-4 border border-gray-200 rounded-lg bg-gray-50 flex-grow text-lg min-h-[120px] whitespace-pre-wrap text-gray-800">
+          </div>
+          <div id="hcmus-loading" class="hidden mt-2 text-sm text-green-600 animate-pulse">Translating via HCMUS API...
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <script type="module" src="/main.js"></script>
+</body>
+
+</html>

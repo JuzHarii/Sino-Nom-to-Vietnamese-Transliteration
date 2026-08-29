@@ -7,3 +7,8 @@ requests
 transformers
 torch
 tqdm
+sentencepiece
+protobuf
+fastapi
+uvicorn
+pydantic

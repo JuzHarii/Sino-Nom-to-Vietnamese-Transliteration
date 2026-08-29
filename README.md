@@ -41,5 +41,23 @@ Create environment configuration file from the template:
 cp .env.example .env
 ```
 
-### 2. Data Collection
+### 2. Running the Web Application
 
+The web app is split into a backend API and a frontend UI. You need two terminal windows.
+
+**Backend (FastAPI):**
+```bash
+cd app/server
+uvicorn main:app --reload
+```
+*(The API will run at http://localhost:8000)*
+
+**Frontend (Vite + Tailwind):**
+```bash
+cd app/ui
+npm install
+npm run dev
+```
+*(The UI will run at http://localhost:5173)*
+
+### 3. Data Collection

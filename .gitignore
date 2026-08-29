@@ -6,3 +6,5 @@ __pycache__/
 docs/
 scripts/
 notebooks/eda_plots
+node_modules/
+dist/
