@@ -9,12 +9,14 @@ from pydantic import BaseModel
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 
 from src.models.mt5_translate import load_mt5_model, mt5_translate
+from src.models.mbart_translate import load_mbart_model, mbart_translate
 from src.data.hcmus_translate import hcmus_translate
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     # Load model on startup
     load_mt5_model()
+    load_mbart_model()
     yield
     # Clean up on shutdown if necessary
 
@@ -43,6 +45,9 @@ async def translate_local(req: TranslationRequest):
     
     if req.model == "mt5":
         res = mt5_translate(req.text)
+        return {"result": res}
+    elif req.model == "mbart":
+        res = mbart_translate(req.text)
         return {"result": res}
     else:
         return {"result": "Model not supported."}
