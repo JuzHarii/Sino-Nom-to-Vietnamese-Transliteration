@@ -4,7 +4,7 @@ __pycache__/
 *.pyc
 .DS_Store
 docs/
-scripts/
+agent-scripts/
 notebooks/eda_plots
 node_modules/
 dist/

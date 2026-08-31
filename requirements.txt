@@ -12,3 +12,6 @@ protobuf
 fastapi
 uvicorn
 pydantic
+sacrebleu
+rouge-score
+evaluate
