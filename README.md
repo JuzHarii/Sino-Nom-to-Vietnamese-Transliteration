@@ -12,17 +12,15 @@ Sino-Nom-to-Vietnamese-Transliteration/
 ├── app/                    # Web application
 │   ├── server/            
 │   └── ui/                 
-├── data/                   # Data management
-│   ├── external/           
-│   ├── interim/            
+├── data/                   # Data management           
 │   ├── processed/          # Datasets for model training
 │   └── raw/                # Original raw data dumps
 ├── docs/                   
-├── models/                 # Model checkpoints & weights 
 ├── notebooks/              # Notebooks for experimentation, EDA and Fine-tuning
 ├── src/                    # Primary source code for the project
-│   └── data/               # Scripts for data preprocessing 
-├── .env.example            
+│   ├── data/               # Scripts for data preprocessing and EDA
+│   ├── eval/               # Evaluation scripts and metrics calculation
+│   └── models/             # Inference wrappers          
 ├── .gitignore              
 ├── README.md               
 └── requirements.txt        
