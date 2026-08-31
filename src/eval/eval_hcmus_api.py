@@ -1,12 +1,12 @@
 import os
 import sys
+sys.stdout.reconfigure(encoding='utf-8')
 import pandas as pd
 from tqdm import tqdm
 from pathlib import Path
 import time
 
-# Thêm thư mục gốc vào PYTHONPATH
-PROJECT_ROOT = Path(__file__).resolve().parents[1]
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(PROJECT_ROOT))
 
 from src.data.hcmus_translate import hcmus_translate
@@ -56,15 +56,27 @@ def compute_metrics(reference, hypothesis):
         
     return exact_match, cer, wer
 
-def evaluate_hcmus_api(test_csv_path, output_csv_path, max_samples=None):
-    print(f"Đang nạp tập test từ: {test_csv_path}")
-    df = pd.read_csv(test_csv_path)
+def evaluate_hcmus_api(test_csv_path, prediction_txt_path, output_csv_path, max_samples=None):
+    print(f"[*] Nạp tập test: {Path(test_csv_path).name}")
+    df_test = pd.read_csv(test_csv_path)
+    
+    print(f"[*] Nạp cache dự đoán: {Path(prediction_txt_path).name}")
+    # Parse txt thủ công để tránh lỗi khoảng trắng header
+    preds_dict = {}
+    with open(prediction_txt_path, 'r', encoding='utf-8') as f:
+        lines = f.readlines()
+        for line in lines[1:]: # Bỏ qua header
+            parts = line.strip().split(',')
+            if len(parts) >= 2:
+                nom_text = parts[0]
+                pred_text = ','.join(parts[1:]) # Đề phòng có dấu phẩy trong câu dịch
+                preds_dict[nom_text] = pred_text
     
     if max_samples:
-        df = df.head(max_samples)
-        print(f"Rút gọn test set còn {max_samples} mẫu để thử nghiệm.")
+        df_test = df_test.head(max_samples)
+        print(f"[*] Chạy test nhanh trên {max_samples} mẫu.")
     
-    total = len(df)
+    total = len(df_test)
     results = []
     
     total_cer = 0.0
@@ -72,20 +84,18 @@ def evaluate_hcmus_api(test_csv_path, output_csv_path, max_samples=None):
     total_exact = 0
     valid_count = 0
     
-    print(f"Bắt đầu dịch và đánh giá {total} câu bằng HCMUS API...")
+    print(f"[*] Bắt đầu đánh giá cho {total} câu")
     
-    # Tự động lưu ngắt quãng để đề phòng lỗi mạng
     output_dir = Path(output_csv_path).parent
     output_dir.mkdir(parents=True, exist_ok=True)
     
-    for idx, row in tqdm(df.iterrows(), total=total, desc="Translating"):
+    for idx, row in tqdm(df_test.iterrows(), total=total, desc="Evaluating"):
         nom_text = row['nom']
         ref_text = row['vietnamese_clean']
         
-        # Gọi API
-        pred_text = hcmus_translate(nom_text)
+        # Kéo kết quả từ cache (không có thì văng lỗi dịch)
+        pred_text = preds_dict.get(nom_text, "Cannot translate this text.")
         
-        # Nếu API trả về thông báo lỗi, ta có thể bỏ qua tính điểm cho câu đó hoặc tính max error
         if pred_text == "Cannot translate this text.":
             cer, wer, exact_match = 1.0, 1.0, 0
             is_valid = False
@@ -107,17 +117,16 @@ def evaluate_hcmus_api(test_csv_path, output_csv_path, max_samples=None):
             'is_valid': is_valid
         })
         
-    # Tạo DataFrame kết quả và lưu lại
     res_df = pd.DataFrame(results)
     res_df.to_csv(output_csv_path, index=False, encoding='utf-8')
     
-    # Tính trung bình trên các câu hợp lệ (API dịch thành công)
+    # Tính điểm trung bình 
     if valid_count > 0:
         avg_cer = total_cer / valid_count
         avg_wer = total_wer / valid_count
         acc = total_exact / valid_count
         
-        # --- Tính BLEU và ROUGE ---
+        # Tính BLEU và ROUGE
         try:
             import sacrebleu
             from rouge_score import rouge_scorer
@@ -144,24 +153,32 @@ def evaluate_hcmus_api(test_csv_path, output_csv_path, max_samples=None):
         except ImportError:
             bleu_str = "Chưa cài sacrebleu"
             rouge_str = "Chưa cài rouge-score"
+        summary_text = (
+            f"KẾT QUẢ ĐÁNH GIÁ HCMUS API\n"
+            f"==================================================\n"
+            f"Tổng số câu     : {total}\n"
+            f"Tính điểm cho   : {valid_count} câu\n"
+            f"--------------------------------------------------\n"
+            f"Exact Match (ACC) : {acc*100:.2f}% ({total_exact}/{valid_count})\n"
+            f"Average CER       : {avg_cer*100:.2f}%\n"
+            f"Average WER       : {avg_wer*100:.2f}%\n"
+            f"BLEU Score        : {bleu_str}\n"
+            f"ROUGE Score       : {rouge_str}\n"
+        )
         
-        print("\n" + "="*50)
-        print("KẾT QUẢ ĐÁNH GIÁ (HCMUS API)")
-        print("="*50)
-        print(f"Tổng số câu     : {total}")
-        print(f"Dịch thành công : {valid_count}")
-        print("-" * 50)
-        print(f"Exact Match (ACC) : {acc*100:.2f}% ({total_exact}/{valid_count})")
-        print(f"Average CER       : {avg_cer*100:.2f}%")
-        print(f"Average WER       : {avg_wer*100:.2f}%")
-        print(f"BLEU Score        : {bleu_str}")
-        print(f"ROUGE Score       : {rouge_str}")
-        print("="*50)
-        print(f"Chi tiết (Predictions) đã lưu tại: {output_csv_path}")
+        print("\n" + summary_text)
+        print(f"[+] Đã lưu file chi tiết: {Path(output_csv_path).name}")
+        
+        summary_file_path = str(output_csv_path).replace('.csv', '_summary.txt')
+        with open(summary_file_path, 'w', encoding='utf-8') as f:
+            f.write(summary_text)
+        print(f"[+] Đã lưu file summary: {Path(summary_file_path).name}")
     else:
-        print("Không có câu nào được dịch thành công!")
+        print("[!] Không có kết quả hợp lệ nào để chấm điểm.")
 
 if __name__ == "__main__":
     TEST_FILE = PROJECT_ROOT / "data" / "processed" / "test.csv"
+    PRED_CACHE_FILE = PROJECT_ROOT / "data" / "result" / "hcmus_predictions.txt"
     OUTPUT_FILE = PROJECT_ROOT / "data" / "result" / "eval_hcmus_test.csv"
-    evaluate_hcmus_api(TEST_FILE, OUTPUT_FILE, max_samples=None)
+    
+    evaluate_hcmus_api(TEST_FILE, PRED_CACHE_FILE, OUTPUT_FILE, max_samples=None)
