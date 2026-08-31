@@ -164,7 +164,4 @@ def evaluate_hcmus_api(test_csv_path, output_csv_path, max_samples=None):
 if __name__ == "__main__":
     TEST_FILE = PROJECT_ROOT / "data" / "processed" / "test.csv"
     OUTPUT_FILE = PROJECT_ROOT / "data" / "result" / "eval_hcmus_test.csv"
-    
-    # Bạn có thể đổi max_samples = None để chạy toàn bộ tập dữ liệu (1400+ câu)
-    # Tuy nhiên để test thử tool, tôi khuyến nghị để số nhỏ trước (vd: 10)
     evaluate_hcmus_api(TEST_FILE, OUTPUT_FILE, max_samples=None)
