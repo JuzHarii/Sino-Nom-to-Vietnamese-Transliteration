@@ -78,9 +78,9 @@ class DataPreprocessor:
     def _categorize_align_diff(self, diff: int) -> str:
         return categorize_align_diff(diff)
 
-    def extract_features(self) -> pd.DataFrame:
-        """Trích xuất các đặc trưng độ dài và alignment giữa Hán-Nôm và Quốc ngữ (trên raw data)."""
-        self.df = compute_length_features(self.df, vn_col='vietnamese')
+    def extract_features(self, vn_col: str = 'vietnamese') -> pd.DataFrame:
+        """Trích xuất các đặc trưng độ dài và alignment giữa Hán-Nôm và Quốc ngữ."""
+        self.df = compute_length_features(self.df, vn_col=vn_col)
         return self.df
 
     def clean_text(self, text: str) -> str:

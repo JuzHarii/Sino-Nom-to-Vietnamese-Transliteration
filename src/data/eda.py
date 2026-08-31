@@ -52,7 +52,7 @@ def print_statistics(df: pd.DataFrame) -> None:
     print(f"  TỔNG CỘNG: {len(df):,} dòng")
 
 
-def detect_outliers(df: pd.DataFrame, col: str, label: str, n_show: int = 10) -> None:
+def detect_outliers(df: pd.DataFrame, col: str, label: str, n_show: int = 10, vn_col: str = 'vietnamese') -> None:
     """Phát hiện và in các câu ngoại lệ (outliers) dựa trên phương pháp IQR."""
     q1, q3 = df[col].quantile(0.25), df[col].quantile(0.75)
     iqr = q3 - q1
@@ -66,8 +66,8 @@ def detect_outliers(df: pd.DataFrame, col: str, label: str, n_show: int = 10) ->
     if not outliers.empty:
         print(f"  Top {min(n_show, len(outliers))} câu dài nhất:")
         for _, row in outliers.nlargest(n_show, col).iterrows():
-            nom_p = row['nom'][:40] + ('...' if len(row['nom']) > 40 else '')
-            vn_p = str(row['vietnamese'])[:50] + ('...' if len(str(row['vietnamese'])) > 50 else '')
+            nom_p = str(row['nom'])[:40] + ('...' if len(str(row['nom'])) > 40 else '')
+            vn_p = str(row.get(vn_col, ''))[:50] + ('...' if len(str(row.get(vn_col, ''))) > 50 else '')
             print(f"    [{row['file_name']}] {col}={row[col]:.0f} | {nom_p} → {vn_p}")
 
 
@@ -152,11 +152,12 @@ def plot_length_distributions(df: pd.DataFrame, save_dir: Path) -> None:
     print(f"\n[Đã lưu] Các biểu đồ được ghi thành công vào {save_dir}")
 
 
-def run_sequence_length_analysis(df: pd.DataFrame, save_dir: Path) -> pd.DataFrame:
+def run_sequence_length_analysis(df: pd.DataFrame, save_dir: Path, vn_col: str = 'vietnamese') -> pd.DataFrame:
     """Chạy toàn bộ pipeline phân tích EDA độ dài chuỗi dữ liệu."""
-    print("---- Phân Tích Độ Dài Chuỗi Dữ Liệu ----\n")
+    dataset_type = "Raw" if vn_col == 'vietnamese' else "Clean"
+    print(f"---- Phân Tích Độ Dài Chuỗi Dữ Liệu ({dataset_type} Data) ----\n")
     preprocessor = DataPreprocessor(df)
-    df = preprocessor.extract_features()
+    df = preprocessor.extract_features(vn_col=vn_col)
     print_statistics(df)
 
     print("\n---- Phát Hiện Ngoại Lệ (Outliers) ----\n")
@@ -165,7 +166,7 @@ def run_sequence_length_analysis(df: pd.DataFrame, save_dir: Path) -> pd.DataFra
         ('vn_word_len', 'Số âm tiết Tiếng Việt'),
         ('ratio_vn_word_per_nom_char', 'Tỷ lệ (Âm tiết VN / Ký tự Nôm)')
     ]:
-        detect_outliers(df, col, label)
+        detect_outliers(df, col, label, vn_col=vn_col)
 
     print("\n---- Vẽ Biểu Đồ Phân Phối ----\n")
     plot_length_distributions(df, save_dir)
@@ -175,6 +176,20 @@ def run_sequence_length_analysis(df: pd.DataFrame, save_dir: Path) -> pd.DataFra
 if __name__ == "__main__":
     PROJECT_ROOT = Path(__file__).resolve().parents[2]
     loader = RawCorpusLoader(data_dir=str(PROJECT_ROOT / "data" / "raw"))
-    df = loader.load()
-    print(f"Đã nạp {len(df):,} dòng từ {df['file_name'].nunique()} tệp dữ liệu.\n")
-    run_sequence_length_analysis(df, save_dir=PROJECT_ROOT / "notebooks" / "eda_plots")
+    df_raw = loader.load()
+    print(f"Đã nạp {len(df_raw):,} dòng từ {df_raw['file_name'].nunique()} tệp dữ liệu gốc.\n")
+    
+    # 1. EDA trên dữ liệu RAW
+    run_sequence_length_analysis(df_raw, save_dir=PROJECT_ROOT / "notebooks" / "eda_plots_raw", vn_col='vietnamese')
+    
+    # 2. EDA trên dữ liệu CLEAN
+    print("\n" + "="*50 + "\nTIẾN HÀNH LÀM SẠCH DỮ LIỆU VÀ PHÂN TÍCH LẠI\n" + "="*50 + "\n")
+    preprocessor = DataPreprocessor(df_raw)
+    df_clean = preprocessor.clean_corpus(augment=False)
+    print(f"Dữ liệu sau khi làm sạch còn {len(df_clean):,} dòng.\n")
+    
+    # Lọc bỏ các dòng lỗi lệch nặng (giữ lại chênh lệch <= 2)
+    df_filtered = df_clean[df_clean['align_diff'] <= 2].copy()
+    print(f"Dữ liệu sau khi lọc (align_diff <= 2) còn {len(df_filtered):,} dòng để phân tích.\n")
+    
+    run_sequence_length_analysis(df_filtered, save_dir=PROJECT_ROOT / "notebooks" / "eda_plots_clean", vn_col='vietnamese_clean')
