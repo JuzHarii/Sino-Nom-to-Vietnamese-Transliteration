@@ -1,0 +1,2 @@
+Model,Total_Samples,BLEU,Accuracy_EM_%,Accuracy_Char_%,Accuracy_Syllable_%,ROUGE1_%,ROUGE2_%,ROUGEL_%,CER_%,WER_%
+Ganth1811/sino-nom-to-vietnamese-mt5-5epoch,1449,51.21,12.28,38.9,58.67,76.53,63.97,74.19,30.69,37.02

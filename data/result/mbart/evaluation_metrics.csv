@@ -1,0 +1,2 @@
+Model,Total_Samples,BLEU,Accuracy_EM_%,Accuracy_Char_%,Accuracy_Syllable_%,ROUGE1_%,ROUGE2_%,ROUGEL_%,CER_%,WER_%
+Ganth1811/sino-nom-to-vietnamese-mbart-5epoch,1449,79.53,41.2,66.26,82.42,91.29,85.7,90.84,10.46,13.18

@@ -1,0 +1,124 @@
+=== 1. TỔNG QUAN TỆP VÀ NGUỒN DỮ LIỆU ===
+Tổng số dòng RAW: 30,415
+
+Số dòng theo tệp:
+  - DVSKTT-1.txt: 556 dòng (1.83%)
+  - DVSKTT-2.txt: 1,701 dòng (5.59%)
+  - DVSKTT-3.txt: 8,800 dòng (28.93%)
+  - DVSKTT-4.txt: 6,096 dòng (20.04%)
+  - DVSKTT-5.txt: 3,562 dòng (11.71%)
+  - KIEU-1866.txt: 2,197 dòng (7.22%)
+  - KIEU-1871.txt: 2,893 dòng (9.51%)
+  - KIEU-1872.txt: 2,570 dòng (8.45%)
+  - LVT.txt: 2,040 dòng (6.71%)
+
+Số dòng theo nguồn tác phẩm:
+  - DVSKTT: 20,715 dòng (68.11%)
+  - KIEU (Truyện Kiều): 7,660 dòng (25.18%)
+  - LVT (Lục Vân Tiên): 2,040 dòng (6.71%)
+
+=== 2. THỐNG KÊ ĐỘ DÀI (RAW) ===
+
+--- nom_char_len ---
+  Mean: 14.83, Std: 13.79, Min: 1, Max: 196
+  Quantiles: 25%=6.00, 50%=9.00, 75%=19.00, 90%=30.00, 95%=40.00, 99%=67.00
+
+--- vn_word_len ---
+  Mean: 15.22, Std: 15.89, Min: 1, Max: 900
+  Quantiles: 25%=7.00, 50%=10.00, 75%=19.00, 90%=31.00, 95%=41.00, 99%=70.00
+
+--- vn_char_len ---
+  Mean: 69.18, Std: 75.94, Min: 1, Max: 4934
+  Quantiles: 25%=30.00, 50%=44.00, 75%=86.00, 90%=141.00, 95%=186.00, 99%=317.00
+
+--- ratio_vn_word_per_nom_char ---
+  Mean: 1.06, Std: 1.93, Min: 0.0891089108910891, Max: 300.0
+  Quantiles: 25%=1.00, 50%=1.00, 75%=1.00, 90%=1.00, 95%=1.00, 99%=2.50
+
+=== 3. ĐỘ DÀI THEO NGUỒN TÁC PHẨM (MEAN & MEDIAN & MAX) ===
+
+Nguồn: DVSKTT (20,715 dòng)
+  Nom char len - Mean: 18.49, Median: 14.0, Max: 196
+  VN word len  - Mean: 18.58, Median: 15.0, Max: 900
+  Ratio (VN/Nom)- Mean: 1.02
+
+Nguồn: KIEU (Truyện Kiều) (7,660 dòng)
+  Nom char len - Mean: 7.00, Median: 6.0, Max: 8
+  VN word len  - Mean: 8.30, Median: 8.0, Max: 479
+  Ratio (VN/Nom)- Mean: 1.20
+
+Nguồn: LVT (Lục Vân Tiên) (2,040 dòng)
+  Nom char len - Mean: 6.99, Median: 6.5, Max: 8
+  VN word len  - Mean: 7.08, Median: 7.0, Max: 63
+  Ratio (VN/Nom)- Mean: 1.01
+
+=== 4. BẤT THƯỜNG VÀ NHIỄU (ANOMALIES) ===
+  total_rows: 30415
+  null_count: {'nom': 0, 'vietnamese': 0, 'file_name': 0, 'source': 0, 'nom_char_len': 0, 'vn_word_len': 0, 'vn_char_len': 0, 'align_diff': 0, 'align_group': 0, 'ratio_vn_word_per_nom_char': 0}
+  duplicate_count: 1544
+  has_ellipsis: 62
+  has_brackets: 1955
+  has_punctuation: 28351
+
+Phân bố Align Diff:
+  - 0 (Không lệch): 29,341 dòng (96.47%)
+  - 1 (Lệch 1): 582 dòng (1.91%)
+  - >5 (Lệch nặng/Lỗi): 471 dòng (1.55%)
+  - 2 (Lệch 2): 12 dòng (0.04%)
+  - 3-5 (Lệch vừa): 9 dòng (0.03%)
+
+Top 5 câu có Align Diff lớn nhất trong RAW:
+  [DVSKTT-3.txt] Nom len=3, VN words=900, diff=897
+     Nom: 帝大悅
+     VN :  Đế đại duyệt.
+秋七月帝	Thu, thất nguyệt, Đế..
+自華閭城徙都于京府大羅城暫泊城
+  [DVSKTT-5.txt] Nom len=18, VN words=631, diff=613
+     Nom: 公始悟遂令碩郡歸營自整兵馬回駐于寧江
+     VN :  Công thuỷ ngộ, toại lệnh Thạc quận quy doanh, tự chỉnh binh
+  [KIEU-1872.txt] Nom len=6, VN words=479, diff=473
+     Nom: 小姐𠁑帳少㝵
+     VN : Tiểu thư dưới trướng thiếu người,
+朱󰡲边意蹺隊臺粧	“Cho về bên ấy t
+  [KIEU-1872.txt] Nom len=6, VN words=239, diff=233
+     Nom: 米低渃畧披花
+     VN : Về đây nước trước bẻ hoa,
+王孫貴客乙󰑼都僥	Vương tôn quý khách ắt l
+  [KIEU-1871.txt] Nom len=6, VN words=230, diff=224
+     Nom: 欺󰀡錫欺臨淄
+     VN : Khi Vô Tích, khi Lâm Truy,
+尼時𩢬倒尼時㤕傷	Nơi thì lừa đảo, nơi th
+
+=== 5. VỐN TỪ (VOCABULARY) VÀ KÝ TỰ HIẾM ===
+  total_nom_chars_tokens: 450943
+  unique_nom_chars: 7443
+  total_vn_syllables_tokens: 462873
+  unique_vn_syllables: 16483
+  rare_nom_chars_count: 2380
+  rare_nom_chars_pct: 31.976353620851803
+  top_10_nom_chars: [('之', 7550), ('以', 4892), ('人', 3612), ('月', 3496), ('十', 3324), ('不', 3194), ('年', 3050), ('帝', 2737), ('有', 2588), ('二', 2536)]
+  top_10_vn_syllables: [('chi', 5621), ('dĩ', 4776), ('vi', 4154), ('nhân', 3268), ('bất', 3095), ('thập', 2763), ('nguyệt,', 2626), ('hữu', 2532), ('kì', 2525), ('nhị', 2053)]
+
+=== 6. CHỮ NÔM ĐA ÂM (POLYPHONES) ===
+Tổng số chữ Nôm đa âm (xuất hiện >= 5 lần): 3933
+Top 15 chữ Nôm đa âm hàng đầu:
+  - 之: 40 âm đọc, tổng xuất hiện=7275, âm chính: 'chi' (72.1%), Chi tiết: chi (5242), chi. (1034), chi, (687), gì (67), Chi (53), chi.. (29), chi". (26), chi! (13), gì! (13), chi? (12), gì? (12), gì. (9), chi; (8), Chi, (8), chi: (7), chi]. (7), chi.] (7), gì, (7), gì!" (4), chi?. (3), gì?" (3), chi?". (2), chi\. (2), chi] (2), chị (2), CHI (2), Chi: (1), [Chi (1), chi", (1), chi], (1), chi?" (1), chim (1), chi,] (1), . (1), chi,.. (1), chi!". (1), Chi.. (1), chi!" (1), chi!” (1), chỉ (1)
+  - 以: 14 âm đọc, tổng xuất hiện=4745, âm chính: 'dĩ' (90.9%), Chi tiết: dĩ (4313), Dĩ (374), dĩ.. (19), dĩ. (12), di~ (7), dĩ, (7), "Dĩ (4), Dĩ.. (2), lấy (2), [dĩ (1), ve-chu (1), Lĩ (1), di~.. (1), Lấy (1)
+  - 人: 29 âm đọc, tổng xuất hiện=3503, âm chính: 'nhân' (78.3%), Chi tiết: nhân (2742), nhân, (350), nhân. (228), Nhân (51), nhân,] (31), nhân.. (18), nhân: (14), nhân]. (13), nhân] (8), nhân; (8), nhân". (7), "Nhân (7), nhân? (5), nhân.] (3), nhân,].. (2), nhân,.. (2), nhân?" (2), nhân", (1), Nhân.. (1), nha^n (1), Nhân, (1), Thân (1), nhân" (1), [Nhân (1), nhân].. (1), nhân], (1), nhân.].. (1), NHÂN (1), nhân?” (1)
+  - 月: 19 âm đọc, tổng xuất hiện=3376, âm chính: 'nguyệt,' (74.9%), Chi tiết: nguyệt, (2528), nguyệt (720), Nguyệt (79), nguyệt. (17), nguyệt,.. (11), nguyệt.. (3), lượng (3), nguyệt; (2), nguyệ, (2), nguyệt.] (2), nguye^.t (1), nguye^.t, (1), nguyệ,t (1), Nguyệt. (1), [UNK] (1), nguyệtm (1), nguyệt,, (1), NGUYỆT (1), lạng (1)
+  - 十: 16 âm đọc, tổng xuất hiện=3184, âm chính: 'thập' (82.2%), Chi tiết: thập (2618), Thập (497), thập, (22), thập.. (14), [Thập (12), thập. (10), [thập (2), nhị (1), thập]. (1), thập; (1), "Thập (1), tha^.p (1), Thập.. (1), . (1), THẬP (1), BẰNG (1)
+  - 不: 10 âm đọc, tổng xuất hiện=3114, âm chính: 'bất' (96.5%), Chi tiết: bất (3006), Bất (80), bất.. (14), "Bất (6), ba^'t (3), Ba^'t (1), "bất (1), Bất.. (1), THAN: (1), than: (1)
+  - 年: 24 âm đọc, tổng xuất hiện=2768, âm chính: 'niên' (38.5%), Chi tiết: niên (1066), niên, (646), niên]. (537), niên. (199), niên,] (183), niên] (54), niên; (25), Niên (21), niên.. (6), niên], (5), niên.] (3), [niên (3), niê, (3), Niên, (3), nie^n (2), niên.]. (2), [UNK] (2), niên,.. (2), nie^n. (1), nie^n]. (1), Niên" (1), Niên.. (1), nên, (1), NIÊN (1)
+  - 帝: 23 âm đọc, tổng xuất hiện=2639, âm chính: 'Đế' (52.7%), Chi tiết: Đế (1392), đế (974), Đế, (80), Đế. (58), đế, (50), đế. (26), [Đế (10), đấy (10), "Đế (7), Đế.. (7), đế.. (4), ĐẾ (3), dde^' (3), ĐẤY (3), đế". (2), DDe^' (2), đế" (2), Đế]. (1), Đế,.. (1), [UNK] (1), dde^', (1), Đế,] (1), đấy, (1)
+  - 有: 15 âm đọc, tổng xuất hiện=2508, âm chính: 'hữu' (89.6%), Chi tiết: hữu (2247), Hữu (205), hữu. (15), hữu.. (11), hữu, (8), "Hữu (7), hữu: (4), hữu? (2), hữu". (2), Hữu, (2), [hữu (1), hữu!" (1), [Hữu (1), HỮu (1), “Hữu (1)
+  - 其: 16 âm đọc, tổng xuất hiện=2417, âm chính: 'kì' (85.9%), Chi tiết: kì (2077), Kì (288), kì.. (14), [Kì (7), kì, (6), ki` (5), Kì.. (5), KÌ (3), Kỳ (3), kì. (2), "Kì (2), [kì (1), Ngã (1), kì: (1), Cùng (1), KIA. (1)
+  - 二: 18 âm đọc, tổng xuất hiện=2402, âm chính: 'nhị' (79.1%), Chi tiết: nhị (1899), Nhị (438), nhị, (17), nhị]. (12), [Nhị (6), nhị. (5), NHị (4), . (4), Nhị.. (4), nhị.. (3), Nhị. (2), nhị: (2), thập (1), NhỊ (1), nhị.] (1), [UNK] (1), Nhị: (1), Nhị, (1)
+  - 大: 14 âm đọc, tổng xuất hiện=2256, âm chính: 'đại' (66.2%), Chi tiết: đại (1494), Đại (710), đại, (17), đại.. (8), "Đại (7), Đại, (4), đại. (4), Đạị. (3), [Đại (2), DDa.i (2), Thái (2), lục (1), Đại.. (1), ĐẠi (1)
+  - 日: 19 âm đọc, tổng xuất hiện=2217, âm chính: 'nhật,' (51.3%), Chi tiết: nhật, (1138), nhật (813), Nhật (187), nhật. (42), nhặt (11), nhật; (5), nhật.. (3), nhật,.. (3), nhặt, (3), "Nhật (2), Nhật, (2), Nhật; (1), nhật] (1), nhậtm (1), [Nhật (1), NHật (1), nhật: (1), viết: (1), nhạt (1)
+  - 為: 17 âm đọc, tổng xuất hiện=2158, âm chính: 'vi' (94.7%), Chi tiết: vi (2043), vị (49), Vi (22), vi.. (12), vi, (11), vi. (8), vi?". (3), Vị (1), vi? (1), "Vi (1), vi: (1), bỉ (1), vi?".. (1), vì (1), vời, (1), VÌ (1), Vơi (1)
+  - 等: 12 âm đọc, tổng xuất hiện=2070, âm chính: 'đẳng' (91.1%), Chi tiết: đẳng (1886), đẳng, (59), đẳng: (48), đẳng. (40), đẳng.. (14), đấng (11), Đẳng (7), đẳng; (1), đẳng". (1), dda(?ng: (1), đẳng] (1), đứng (1)
+
+=== 7. TẬP DỮ LIỆU CHẾ BIẾN (TRAIN/VAL/TEST) ===
+Train: 25,221 dòng (89.68%)
+Val  : 1,452 dòng (5.16%)
+Test : 1,449 dòng (5.15%)

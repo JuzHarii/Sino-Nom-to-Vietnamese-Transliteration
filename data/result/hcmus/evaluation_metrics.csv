@@ -1,0 +1,2 @@
+Model,Total_Samples,BLEU,Accuracy_EM_%,Accuracy_Char_%,Accuracy_Syllable_%,ROUGE1_%,ROUGE2_%,ROUGEL_%,CER_%,WER_%
+HCMUS-Online-API,1449,85.67,38.03,82.27,89.61,90.1,83.42,89.74,5.08,10.18
