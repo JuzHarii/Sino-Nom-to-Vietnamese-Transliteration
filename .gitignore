@@ -8,3 +8,5 @@ agent-scripts/
 notebooks/eda_plots
 node_modules/
 dist/
+tmp/
+nop bai/
