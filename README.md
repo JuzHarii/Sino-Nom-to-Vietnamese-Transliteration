@@ -30,8 +30,6 @@ Sino-Nom-to-Vietnamese-Transliteration/
 
 ### 1. Environment Setup
 
-**Prerequisite:** This project is built and tested with **Python 3.8.0**.
-
 It is highly recommended to create and activate a virtual environment first:
 ```bash
 # Create a virtual environment
